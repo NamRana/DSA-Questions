@@ -51,3 +51,39 @@ class Solution{
         return -1;
     }
 }
+
+//Rolling Hash or Rabin Karp
+class Solution{
+    public:
+    int rabinKarp(string &text, string &pattern){
+        long BASE=26,MOD=1e9+7;
+        long power=1;
+
+        for(int i=1;i<pattern.size();i++){
+            pattern_hash=(pattern_hash*BASE+(pattern[i]-'a'+1))%MOD;
+            text_hash=(text_hash*BASE+(text[i]-'a'+1))%MOD;
+        }
+        if(pattern_hash==text_hash) return 0;
+
+        int start=0;
+        for(int i=pattern.size();i<text.size();i++){
+            int ch=text[start++]-'a'+1;
+            text_hash=text_hash-(ch*power);
+
+            text_hash=(text_hash*BASE+(text[i]-'a'+1))%MOD;
+
+            if(text_hash<0){
+                text_hash+=MOD;
+            }
+            if(text_hash==pattern_hash) return start;
+        }
+        return -1;
+
+    }
+
+    int strStr(string haystack, string needle){
+        if(needle.size()==0)return 0;
+        return rabinKarp(haystack, needle);
+    }
+
+}
