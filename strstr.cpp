@@ -87,3 +87,10 @@ class Solution{
     }
 
 }
+
+//one line java
+class Solution{
+    public int strStr(String x,String y){
+        return x.indexof(y);
+    }
+}
